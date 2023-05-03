@@ -72,6 +72,8 @@ class Database extends GetxService {
     if (allNote.isNotEmpty) {
       allNotes.addAll(notesBox.values);
       currentNoteRx.value = allNote.last;
+    }else{
+      notesBox.add(currentNote);
     }
   }
 

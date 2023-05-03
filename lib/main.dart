@@ -1,7 +1,7 @@
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:taurs_note/services/database/database.dart';
+import 'services/database/database.dart';
 import 'widgets/note_view.dart';
 
 void main(List<String>? args) async {

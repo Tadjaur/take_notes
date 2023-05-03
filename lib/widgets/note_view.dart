@@ -1,11 +1,7 @@
-import 'dart:math';
-
 import 'package:bitsdojo_window/bitsdojo_window.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
-import 'package:taurs_note/services/database/database.dart';
+import '../services/database/database.dart';
 
 class NoteView extends GetView<Database> {
   final focused = Rx<bool?>(null);
