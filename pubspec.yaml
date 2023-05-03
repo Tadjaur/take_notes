@@ -1,4 +1,4 @@
-name: taurs_note
+name: take_notes
 description: A simple cross platform note application
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -48,7 +48,11 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
+  cupertino_icons: 1.0.2
+
+  # Flutter plugin for getting commonly used locations on host platform file systems,
+  # such as the temp and app data directories.
+  path_provider: 2.0.14
 
 dev_dependencies:
   flutter_test:

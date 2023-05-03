@@ -1,4 +1,4 @@
-package dev.taurs.tnote.taurs_note
+package dev.taurs.take_notes
 
 import io.flutter.embedding.android.FlutterActivity
 

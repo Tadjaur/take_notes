@@ -1,11 +1,11 @@
 {
-    "name": "taurs_note",
-    "short_name": "taurs_note",
+    "name": "take_notes",
+    "short_name": "take_notes",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A simple cross platform note application",
+    "description": "A new Flutter project.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

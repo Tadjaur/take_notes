@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "dev.taurs.tnote" "\0"
-            VALUE "FileDescription", "taurs_note" "\0"
+            VALUE "CompanyName", "dev.taurs" "\0"
+            VALUE "FileDescription", "take_notes" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "taurs_note" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2023 dev.taurs.tnote. All rights reserved." "\0"
-            VALUE "OriginalFilename", "taurs_note.exe" "\0"
-            VALUE "ProductName", "taurs_note" "\0"
+            VALUE "InternalName", "take_notes" "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2023 dev.taurs. All rights reserved." "\0"
+            VALUE "OriginalFilename", "take_notes.exe" "\0"
+            VALUE "ProductName", "take_notes" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

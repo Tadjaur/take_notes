@@ -5,10 +5,10 @@
 // 'flutter create' template.
 
 // The application's name. By default this is also the title of the Flutter window.
-PRODUCT_NAME = taurs_note
+PRODUCT_NAME = take_notes
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = dev.taurs.tnote.taursNote
+PRODUCT_BUNDLE_IDENTIFIER = dev.taurs.takeNotes
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2023 dev.taurs.tnote. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2023 dev.taurs. All rights reserved.

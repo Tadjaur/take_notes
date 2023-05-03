@@ -1,9 +1,9 @@
 import 'dart:async';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
 
 class Note extends HiveObject {
   /// The notes value.
@@ -63,7 +63,8 @@ class Database extends GetxService {
   }
 
   Future<void> loadNotesBox() async {
-    Hive.init('./');
+    final docDir = (await getApplicationSupportDirectory()).path;
+    Hive.init(docDir);
     Hive.registerAdapter(NoteAdapter());
     _notesBox.complete(Hive.openBox<Note>('notes'));
     final notesBox = await _notesBox.future;
