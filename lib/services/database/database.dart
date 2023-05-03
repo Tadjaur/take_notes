@@ -8,6 +8,10 @@ import 'package:hive/hive.dart';
 class Note extends HiveObject {
   /// The notes value.
   /// Empty by default.
+  String title = 'Untitled';
+
+  /// The notes value.
+  /// Empty by default.
   String notes = '';
 
   /// The color value.
@@ -25,6 +29,7 @@ class NoteAdapter extends TypeAdapter<Note> {
   @override
   Note read(BinaryReader reader) {
     return Note()
+      ..title = reader.readString()
       ..notes = reader.readString()
       ..colorValue = reader.readInt32();
   }
@@ -35,14 +40,19 @@ class NoteAdapter extends TypeAdapter<Note> {
   @override
   void write(BinaryWriter writer, Note obj) {
     writer
+      ..writeString(obj.title)
       ..writeString(obj.notes)
       ..writeInt32(obj.colorValue);
   }
-
 }
 
 class Database extends GetxService {
-  Completer<Box<Note>> _notesBox = Completer();
+  final Completer<Box<Note>> _notesBox = Completer();
+  final currentNoteRx = Rx<Note>(Note());
+  final allNotes = <Note>{}.obs;
+
+  Note get currentNote => currentNoteRx.value;
+  Iterable<Note> get otherNotes => allNotes.where((note) => note != currentNote);
 
   @override
   void onInit() {
@@ -54,17 +64,25 @@ class Database extends GetxService {
     Hive.init('./');
     Hive.registerAdapter(NoteAdapter());
     _notesBox.complete(Hive.openBox<Note>('notes'));
-  }
-
-  Future<Note> getLastOpenedNote() async {
     final notesBox = await _notesBox.future;
     final allNote = notesBox.values;
-    if (allNote != null && allNote.isNotEmpty) {
-      return allNote.last;
+    if (allNote.isNotEmpty) {
+      allNotes.addAll(notesBox.values);
+      currentNoteRx.value = allNote.last;
     }
+  }
+
+  Note _createNote(Box<Note> notesBox) {
     final note = Note();
     notesBox.add(note);
+    allNotes.add(note);
     return note;
   }
 
+
+
+  Future<void> createNote() async {
+    final note = _createNote(await _notesBox.future);
+    currentNoteRx.value = note;
+  }
 }

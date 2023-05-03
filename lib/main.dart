@@ -4,13 +4,15 @@ import 'package:get/get.dart';
 import 'package:taurs_note/services/database/database.dart';
 import 'widgets/note_view.dart';
 
-void main() {
+void main(List<String>? args) async {
+  print('Main call with $args');
   WidgetsFlutterBinding.ensureInitialized();
   Get.put(Database());
   runApp(const MyApp());
   doWhenWindowReady(() {
     appWindow.minSize = Size(200, 250);
     appWindow.size = Size(350, 420);
+    appWindow.title = 'Note';
     appWindow.alignment = Alignment.center;
     appWindow.show();
   });
