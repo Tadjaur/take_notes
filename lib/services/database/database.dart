@@ -52,7 +52,9 @@ class Database extends GetxService {
   final allNotes = <Note>{}.obs;
 
   Note get currentNote => currentNoteRx.value;
-  Iterable<Note> get otherNotes => allNotes.where((note) => note != currentNote);
+
+  Iterable<Note> get otherNotes =>
+      allNotes.where((note) => note != currentNote);
 
   @override
   void onInit() {
@@ -79,10 +81,27 @@ class Database extends GetxService {
     return note;
   }
 
-
-
   Future<void> createNote() async {
     final note = _createNote(await _notesBox.future);
     currentNoteRx.value = note;
+  }
+
+  void deleteCurrentNote() async {
+    final box = await _notesBox.future;
+    final idx =
+        box.values.toList().indexWhere((element) => element == currentNote);
+    if (idx == -1) {
+      return;
+    }
+    final noteToDelete = currentNote;
+    if(box.values.length > 1){
+      currentNoteRx.value =
+          box.getAt((idx + 1) % box.values.length)!;
+    }else{
+      currentNoteRx.value = _createNote(box);
+    }
+
+    box.deleteAt(idx);
+    allNotes.removeWhere((element) => element == noteToDelete);
   }
 }
