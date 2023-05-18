@@ -28,31 +28,54 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  flutter:
-    sdk: flutter
-
   # A package to help with creating custom windows with Flutter desktop
   # (custom border, titlebar and minimize/maximize/close buttons) and common desktop window
   # operations (show/hide/position on screen) for Windows and macOS.
   # Platform: Android, ios, macos, linux, web, windows.
   bitsdojo_window: 0.1.5
 
-  # Manage states and inject dependencies easily with GetX.
-  # Platform: Android, ios, macos, linux, web, windows.
-  get: 4.6.5
-
-  # Lightweight and blazing fast key-value database written in pure Dart.
-  # Strongly encrypted using AES-256.
-  # Platform: Android, ios, macos, linux, web, windows.
-  hive: 2.2.3
+  # Implementations of SHA, MD5, and HMAC cryptographic functions.
+  crypto: 3.0.3
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: 1.0.2
 
-  # Flutter plugin for getting commonly used locations on host platform file systems,
+  flutter:
+    sdk: flutter
+
+  # Manage states and inject dependencies easily with GetX.
+  # Platform: Android, ios, macos, linux, web, windows.
+  get: 4.6.5
+
+  # Auto-generated client libraries for accessing Google APIs described through the API discovery service.
+  googleapis: 11.1.0
+  
+  # Obtain Access credentials for Google services using OAuth 2.0
+  googleapis_auth: 1.4.0
+  
+  # Lightweight and blazing fast key-value database written in pure Dart.
+  # Strongly encrypted using AES-256.
+  # Platform: Android, ios, macos, linux, web, windows.
+  hive: 2.2.3
+
+  # A composable, multi-platform, Future-based API for HTTP requests.
+  http: 0.13.6
+  
+  # A string-based path manipulation library.
+  # All of the path operations you know and love, with solid support for Windows,
+  # POSIX (Linux and Mac OS X), and the web.
+  path: 1.8.2
+ 
+ # Flutter plugin for getting commonly used locations on host platform file systems,
   # such as the temp and app data directories.
   path_provider: 2.0.14
+
+  # Flutter plugin for launching a URL. Supports web, phone, SMS, and email schemes.
+  url_launcher: 6.1.11
+
+  # RFC4122 (v1, v4, v5) UUID Generator and Parser for all Dart platforms (Web, VM, Flutter).
+  uuid: 3.0.7
 
 dev_dependencies:
   flutter_test:
