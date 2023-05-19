@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1089824253950-em84a4tcfqp7ba9ir3en2etauk08lt9q.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1089824253950-em84a4tcfqp7ba9ir3en2etauk08lt9q</string>
+	<key>API_KEY</key>
+	<string>AIzaSyADx93hs4diwcQaKFCmJCyDlixcEBL2cZc</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1089824253950</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>dev.taurs.takeNotes</string>
+	<key>PROJECT_ID</key>
+	<string>take-note-45a4e</string>
+	<key>STORAGE_BUCKET</key>
+	<string>take-note-45a4e.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1089824253950:ios:361e9ce1834142401f02af</string>
+</dict>
+</plist>

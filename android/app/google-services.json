@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "1089824253950",
+    "project_id": "take-note-45a4e",
+    "storage_bucket": "take-note-45a4e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1089824253950:android:abc350e9230a1f051f02af",
+        "android_client_info": {
+          "package_name": "dev.taurs.take_notes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1089824253950-3gra4mplcn7vev8jqo5jshbmn90kk5uk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2bWxBdiuYLB8KlJ8TnGpPS-PpWCRuXJM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1089824253950-3gra4mplcn7vev8jqo5jshbmn90kk5uk.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1089824253950-em84a4tcfqp7ba9ir3en2etauk08lt9q.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "dev.taurs.takeNotes"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
