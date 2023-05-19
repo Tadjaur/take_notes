@@ -5,6 +5,7 @@ import 'package:take_notes/widgets/note_view/random_paint.dart';
 import 'package:take_notes/widgets/note_view/title.dart';
 
 import '../../services/database/database.dart';
+import 'google_sync_status_icon.dart';
 
 class MobileView extends GetView<Database> {
   MobileView({required this.child, super.key});
@@ -25,6 +26,13 @@ class MobileView extends GetView<Database> {
             snap: false,
             floating: false,
             expandedHeight: 300.0,
+            // Builder is required for the widget insde to get internal context.
+            leading: Builder(builder: (context) {
+              return IconTheme(
+                data: IconThemeData(color: controller.currentNote.color),
+                child: GoogleSyncStatusIcon(),
+              );
+            }),
             actions: [
               DeleteButtonIcon(),
               RandomPaint(),
@@ -84,8 +92,7 @@ class MobileView extends GetView<Database> {
                                 padding: const EdgeInsets.only(left: 5),
                                 enabled: true,
                                 height: 32,
-                                onTap: () =>
-                                    controller.currentNoteRx.value = note,
+                                onTap: () => controller.setCurrentNote(note),
                                 child: Row(
                                   children: [
                                     Padding(

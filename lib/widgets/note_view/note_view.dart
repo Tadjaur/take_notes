@@ -16,7 +16,7 @@ class NoteView extends GetView<Database> {
           color: Color.lerp(controller.currentNote.color, Colors.black, 0.25) ??
               controller.currentNote.color,
           width: 2,
-          child: BodyView(note: controller.currentNote));
+          child: const BodyView());
       return GetPlatform.isMobile
           ? MobileView(child: child)
           : DesktopView(child: child);

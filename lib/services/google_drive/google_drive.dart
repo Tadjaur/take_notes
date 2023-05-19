@@ -1,74 +1,31 @@
-import 'package:crypto/src/digest.dart';
 import 'package:get/get.dart';
-import 'package:googleapis_auth/auth_io.dart';
-import 'package:http/http.dart' as http;
 import 'package:take_notes/services/database/models/drive_credential.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:take_notes/services/google_drive/google_drive_auth.dart';
 import 'package:googleapis/drive/v3.dart' as drive;
 
+import 'google_drive_desktop_auth.dart';
+
 class GoogleDriveService extends GetxService {
-  final _clientId = ClientId(
-      '402904080028-sd6bt3l5dief26o01mjvn27tii05jc5u.apps.googleusercontent.com',
-      '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');
+  final GoogleDriveAuth authenticator;
 
-  /// Use the oauth2 code grant server flow functionality to
-  /// get an authenticated and auto refreshing client.
-  Future<AuthClient> _obtainCredentials() async => await clientViaUserConsent(
-        _clientId,
-        [
-          drive.DriveApi.driveAppdataScope,
-        ],
-        _prompt,
-      );
+  GoogleDriveService()
+      : authenticator = GetPlatform.isDesktop
+            ? GoogleDriveDesktopAuth()
+            : GoogleDriveAuth();
 
-  void _prompt(String url) {
-    print('Please go to the following URL and grant access:');
-    print('  => $url');
-    print('');
-    _launchUrl(Uri.parse(url));
+  Future<DriveCredentials> authenticate() {
+    return authenticator.authenticate();
   }
 
-  Future<void> _launchUrl(Uri url) async {
-    if (!await launchUrl(url)) {
-      throw Exception('Could not launch $url');
-    }
-  }
-
-  Future<DriveCredentials> authenticate() async {
-    final response = await _obtainCredentials();
-    return DriveCredentials(
-      accessTokenType: response.credentials.accessToken.type,
-      accessTokenData: response.credentials.accessToken.data,
-      accessTokenExpiry:
-          response.credentials.accessToken.expiry.toUtc().toIso8601String(),
-      refreshToken: response.credentials.refreshToken,
-      scopes: response.credentials.scopes,
-      idToken: response.credentials.idToken,
-    );
-  }
-
-  drive.DriveApi getDriveApi(DriveCredentials credentials) {
-    return drive.DriveApi(autoRefreshingClient(
-      _clientId,
-      AccessCredentials(
-        AccessToken(
-          credentials.accessTokenType,
-          credentials.accessTokenData,
-          DateTime.parse(credentials.accessTokenExpiry),
-        ),
-        credentials.refreshToken,
-        credentials.scopes,
-        idToken: credentials.idToken,
-      ),
-      http.Client(),
-    ));
+  Future<drive.DriveApi> getDriveApi(DriveCredentials credentials) async {
+    return drive.DriveApi(await authenticator.getHttpclient(credentials));
   }
 
   Future<DriveFileState> searchFile(
       {required String id,
       required DateTime localUpdatedTime,
       required DriveCredentials credentials}) async {
-    final api = getDriveApi(credentials);
+    final api = await getDriveApi(credentials);
     try {
       final response = await api.files
           .get(id, downloadOptions: drive.DownloadOptions.metadata);
@@ -103,7 +60,7 @@ class GoogleDriveService extends GetxService {
       {required DriveCredentials credentials,
       required List<int> raw,
       required DateTime updatedAt}) async {
-    final api = getDriveApi(credentials);
+    final api = await getDriveApi(credentials);
     final media = drive.Media(Future.value(raw).asStream(), raw.length);
     final file = drive.File(
       appProperties: {'dbUpdatedAt': updatedAt.toUtc().toIso8601String()},
@@ -127,7 +84,7 @@ class GoogleDriveService extends GetxService {
       required List<int> raw,
       required String id,
       required DateTime updatedAt}) async {
-    final api = getDriveApi(credentials);
+    final api = await getDriveApi(credentials);
     final media = drive.Media(Future.value(raw).asStream(), raw.length);
     final file = drive.File(
       appProperties: {'dbUpdatedAt': updatedAt.toUtc().toIso8601String()},
@@ -143,7 +100,7 @@ class GoogleDriveService extends GetxService {
 
   Future<void> deleteFile(
       {required DriveCredentials credentials, required String id}) async {
-    final api = getDriveApi(credentials);
+    final api = await getDriveApi(credentials);
     try {
       return await api.files.delete(id);
     } on drive.DetailedApiRequestError catch (error) {
@@ -156,7 +113,7 @@ class GoogleDriveService extends GetxService {
 
   Future<String> getMedia(
       {required DriveCredentials credentials, required String id}) async {
-    return ((await getDriveApi(credentials).files.get(id,
+    return ((await (await getDriveApi(credentials)).files.get(id,
             downloadOptions: drive.DownloadOptions.fullMedia)) as drive.Media)
         .stream
         .join();
@@ -168,7 +125,7 @@ class GoogleDriveService extends GetxService {
       required Future<void> Function(
               String noteId, Stream<List<int>> noteStream)
           transform}) async {
-    final api = getDriveApi(credentials);
+    final api = await getDriveApi(credentials);
     final fileList = await api.files.list(
       spaces: 'appDataFolder',
       pageSize: 100,

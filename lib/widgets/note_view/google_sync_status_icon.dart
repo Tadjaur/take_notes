@@ -17,7 +17,7 @@ class GoogleSyncStatusIcon extends GetView<Database> {
           try {
             syncResponse = await controller.syncData();
           } on Exception catch (e) {
-            print('ERROR CAUGHT: $e');
+            print('ERROR CAUGHT: $e \n stackTrace: ${StackTrace.current}');
             syncResponse = SyncResponse.failed;
           }
           loading.value = false;

@@ -41,12 +41,20 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: 1.0.2
 
+  # A bridge package between google_sign_in and googleapis_auth, to create Authenticated Clients from google_sign_in user credentials.
+  extension_google_sign_in_as_googleapis_auth: 2.0.9
+  
+  firebase_auth: ^4.6.1
+  firebase_core: ^2.13.0
   flutter:
     sdk: flutter
 
   # Manage states and inject dependencies easily with GetX.
   # Platform: Android, ios, macos, linux, web, windows.
   get: 4.6.5
+
+  # Flutter plugin for Google Sign-In, a secure authentication system for signing in with a Google account on Android and iOS.
+  google_sign_in: 6.1.0
 
   # Auto-generated client libraries for accessing Google APIs described through the API discovery service.
   googleapis: 11.1.0

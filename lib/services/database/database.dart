@@ -2,12 +2,13 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 
-import '../google_drive.dart';
+import '../google_drive/google_drive.dart';
 import 'models/note.dart';
 import 'models/drive_credential.dart';
 
@@ -26,6 +27,8 @@ class Database extends GetxService {
   final currentNoteRx = Rx<Note>(Note());
   final allNotes = <Note>{}.obs;
   final GoogleDriveService _driveService;
+
+  final textInputController = TextEditingController();
 
   Database(this._driveService);
   Note get currentNote => currentNoteRx.value;
@@ -58,11 +61,11 @@ class Database extends GetxService {
     final notesBox = await _notesBox.future;
     final allNote = notesBox.values;
     if (allNote.isNotEmpty) {
-      allNotes.addAll(notesBox.values);
-      currentNoteRx.value = allNote.last;
+      setCurrentNote(allNote.last);
     } else {
       notesBox.add(currentNote);
     }
+    allNotes.addAll(notesBox.values);
   }
 
   Note _createNote(Box<Note> notesBox, {String? noteId}) {
@@ -74,7 +77,7 @@ class Database extends GetxService {
 
   Future<void> createNote() async {
     final note = _createNote(await _notesBox.future);
-    currentNoteRx.value = note;
+    setCurrentNote(note);
   }
 
   void deleteCurrentNote() async {
@@ -86,9 +89,9 @@ class Database extends GetxService {
     }
     final noteToDelete = currentNote;
     if (box.values.length > 1) {
-      currentNoteRx.value = box.getAt((idx + 1) % box.values.length)!;
+      setCurrentNote(box.getAt((idx + 1) % box.values.length)!);
     } else {
-      currentNoteRx.value = _createNote(box);
+      setCurrentNote(_createNote(box));
     }
 
     box.deleteAt(idx);
@@ -149,8 +152,9 @@ class Database extends GetxService {
           return SyncResponse.failed;
         case DriveFileState.missingFile:
 
-          /// PASS file should missing a this time.
-          print('UNCAUGHT MISSING FILE');
+          /// The file was deleted by other.
+          /// Todo: prevent before deleting the file.
+          await deleteNote(note);
           break;
         case DriveFileState.existWithOutdatedData:
           // Update file when ever file is missing or md5 is invalid.
@@ -183,10 +187,42 @@ class Database extends GetxService {
         credentials: credentials,
         localFileIds: allNotes.map((element) => element.id).whereType(),
         transform: (String noteId, Stream<List<int>> noteStream) async {
-          final note = _createNote(await _notesBox.future, noteId: noteId);
-          final noteString = await noteStream.join();
-          note.updateFromJson(json.decode(noteString));
-          note.save();
+          final stream = await noteStream.first;
+          final noteString = utf8.decode(stream);
+          print('NOTE STRING>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+          print('NOTE STRING>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+          print('$noteString');
+          print('NOTE STRING>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+          print('NOTE STRING>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+          print('NOTE STRING>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+          print('NOTE STRING>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+          final map = (json.decode(noteString) as Map).cast<String, dynamic>();
+          _createNote(await _notesBox.future, noteId: noteId)
+            ..updateFromJson(map)
+            ..save();
         });
+  }
+
+  void setCurrentNote(Note note) {
+    currentNoteRx.value = note;
+    textInputController.text = note.notes.value;
+  }
+
+  Future<void> deleteNote(Note note) async {
+    final box = await _notesBox.future;
+    final idx =
+        box.values.toList().indexWhere((element) => element == currentNote);
+    if (idx == -1) {
+      return;
+    }
+    if (note == currentNote) {
+      if (box.values.length > 1) {
+        setCurrentNote(box.getAt((idx + 1) % box.values.length)!);
+      } else {
+        setCurrentNote(_createNote(box));
+      }
+    }
+    box.deleteAt(idx);
+    allNotes.removeWhere((element) => element == note);
   }
 }

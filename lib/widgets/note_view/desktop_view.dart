@@ -110,8 +110,7 @@ class DesktopView extends GetView<Database> {
                               padding: const EdgeInsets.only(left: 5),
                               enabled: true,
                               height: 32,
-                              onTap: () =>
-                                  controller.currentNoteRx.value = note,
+                              onTap: () => controller.setCurrentNote(note),
                               child: Row(
                                 children: [
                                   Padding(

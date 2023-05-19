@@ -1,8 +1,8 @@
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:take_notes/services/google_drive.dart';
 import 'services/database/database.dart';
+import 'services/google_drive/google_drive.dart';
 import 'widgets/note_view/note_view.dart';
 
 void main(List<String>? args) async {

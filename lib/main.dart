@@ -1,19 +1,25 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:take_notes/services/google_drive.dart';
 import 'services/database/database.dart';
+import 'services/google_drive/google_drive.dart';
 import 'widgets/note_view/note_view.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main(List<String>? args) {
+void main(List<String>? args) async {
   if (!kIsWeb && GetPlatform.isDesktop) {
     throw Exception(
         'Unsupported Platform: Use main_desktop.dart for desktop application');
   }
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   final driveService = GoogleDriveService();
   Get.put(driveService);
   Get.put(Database(driveService));
+
   runApp(const MyApp());
 }
 
